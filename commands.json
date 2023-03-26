@@ -1,0 +1,17 @@
+{
+    "commands": [
+        {
+            "name": "time",
+            "description": "Timer Status",
+            "type": 1,
+            "options": []
+        },
+        {
+            "name": "reset",
+            "description": "No Acction",
+            "type": 1,
+            "options": [],
+            "ephemeral": true
+        }
+    ]
+}
