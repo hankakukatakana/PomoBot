@@ -104,7 +104,8 @@ client.on('interactionCreate', async interaction => {
     
     switch (interaction.commandName) {
         case 'time':
-            sentMessage = await interaction.reply({ embeds: [createEmbed()] });
+            /* sentMessage = await interaction.reply({ embeds: [createEmbed()] }); */
+            interaction.reply('Invalid command');
             break;
         case 'reset':
             interaction.reply('Invalid command');
