@@ -45,7 +45,7 @@ client.once("ready", async () => {
         .setDescription('Power ON')
         .setImage('https://i.imgur.com/AfFp7pu.png')
         .addFields(
-            { name: '-Next-', value: `${nextTime1.toLocaleTimeString()} countdown: ---`, inline: false },
+            { name: '-Next-', value: `${nextTime1.toLocaleTimeString()} `, inline: false },
             { name: '\u200B', value: '\u200B', inline: false },
             { name: 'schedule-1', value: nextTime2.toLocaleTimeString(), inline: true },
             { name: 'schedule-2', value: nextTime3.toLocaleTimeString(), inline: true },
@@ -83,6 +83,7 @@ client.once("ready", async () => {
         Worktime();/* 30で割れる分数の0秒になったとき */
         editEmbed();
         embed.setDescription('作業中です')
+        embed.setImage('https://pbs.twimg.com/media/FsS-cS4akAAed1X?format=jpg&name=4096x4096')
         sentMessage.edit({ embeds: [embed] });
     });
     task1.start();
@@ -90,6 +91,7 @@ client.once("ready", async () => {
     const task2 = cron.job('0 25,55 * * * *', () => {
         Breaktime();/* 25分0秒と55分0秒になったとき */
         embed.setDescription('休憩中です')
+        embed.setImage('https://pbs.twimg.com/media/FsS-cS9akAAf46u?format=jpg&name=4096x4096')
         sentMessage.edit({ embeds: [embed] });
     });
     task2.start();
