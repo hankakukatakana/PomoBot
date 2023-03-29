@@ -45,19 +45,19 @@ client.once("ready", async () => {
         .setDescription('Power ON')
         .setImage('https://i.imgur.com/AfFp7pu.png')
         .addFields(
-            { name: '-Next-', value: `${nextTime1.toLocaleTimeString()} `, inline: false },
+            { name: '-Next-', value: `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false },
             { name: '\u200B', value: '\u200B', inline: false },
-            { name: 'schedule-1', value: nextTime2.toLocaleTimeString(), inline: true },
-            { name: 'schedule-2', value: nextTime3.toLocaleTimeString(), inline: true },
-            { name: 'schedule-3', value: nextTime4.toLocaleTimeString(), inline: true }
+            { name: 'schedule-1', value: nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' }), inline: true },
+            { name: 'schedule-2', value: nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' }), inline: true },
+            { name: 'schedule-3', value: nextTime4.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' }), inline: true }
         )
     sentMessage = await txChannel.send({ embeds: [embed] });
     const editEmbed = () => {
         const [nextTime1, nextTime2, nextTime3, nextTime4] = Gettime();
-        embed.fields[0].value = `${nextTime1.toLocaleTimeString()} countdown: ---`;
-        embed.fields[2].value = nextTime2.toLocaleTimeString();
-        embed.fields[3].value = nextTime3.toLocaleTimeString();
-        embed.fields[4].value = nextTime4.toLocaleTimeString();
+        embed.fields[0].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} countdown: ---`;
+        embed.fields[2].value = nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
+        embed.fields[3].value = nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
+        embed.fields[4].value = nextTime4.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
         sentMessage.edit({ embeds: [embed] });
     };
 
