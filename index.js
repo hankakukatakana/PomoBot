@@ -3,7 +3,7 @@ const { Client, Intents, MessageEmbed } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, StreamType } = require('@discordjs/voice');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 const fs = require('fs');
-const config = JSON.parse(fs.readFileSync('./test_config.json', 'utf-8'));
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));
 const commands = JSON.parse(fs.readFileSync('./commands.json', 'utf-8'));
 const cron = require('cron');
 
@@ -54,7 +54,7 @@ client.once("ready", async () => {
     sentMessage = await txChannel.send({ embeds: [embed] });
     const editEmbed = () => {
         const [nextTime1, nextTime2, nextTime3, nextTime4] = Gettime();
-        embed.fields[0].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} countdown: ---`;
+        embed.fields[0].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
         embed.fields[2].value = nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
         embed.fields[3].value = nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
         embed.fields[4].value = nextTime4.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
