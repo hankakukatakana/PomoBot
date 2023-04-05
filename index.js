@@ -34,30 +34,26 @@ client.once("ready", async () => {
         const nextTime1 = new Date(quotient * thirtyMinutes);
         const nextTime2 = new Date(nextTime1.getTime() + thirtyMinutes);
         const nextTime3 = new Date(nextTime1.getTime() + thirtyMinutes * 2);
-        const nextTime4 = new Date(nextTime1.getTime() + thirtyMinutes * 3);
-        return [nextTime1, nextTime2, nextTime3, nextTime4];
+        return [nextTime1, nextTime2, nextTime3 ];
     };
     
-    const [nextTime1, nextTime2, nextTime3, nextTime4] = Gettime();
+    const [nextTime1, nextTime2, nextTime3 ] = Gettime();
     const embed = new MessageEmbed()
         .setColor(0x0099FF)
         .setTitle('Timer')
         .setDescription('Power ON')
         .setImage('https://i.imgur.com/AfFp7pu.png')
         .addFields(
-            { name: '-Next-', value: `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false },
-            { name: '\u200B', value: '\u200B', inline: false },
-            { name: 'schedule-1', value: nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' }), inline: true },
-            { name: 'schedule-2', value: nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' }), inline: true },
-            { name: 'schedule-3', value: nextTime4.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' }), inline: true }
+            { name: '1ポモ目', value: `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `, inline: false },
+            { name: '2ポモ目', value: `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `, inline: false },
+            { name: '3ポモ目', value: `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `, inline: false }
         )
     sentMessage = await txChannel.send({ embeds: [embed] });
     const editEmbed = () => {
-        const [nextTime1, nextTime2, nextTime3, nextTime4] = Gettime();
-        embed.fields[0].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
-        embed.fields[2].value = nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
-        embed.fields[3].value = nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
-        embed.fields[4].value = nextTime4.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
+        const [nextTime1, nextTime2, nextTime3 ] = Gettime();
+        embed.fields[0].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `;
+        embed.fields[1].value = `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `;
+        embed.fields[2].value = `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `;
         sentMessage.edit({ embeds: [embed] });
     };
 
