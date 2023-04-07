@@ -81,7 +81,7 @@ client.once("ready", async () => {
     const task1 = cron.job('0 */30 * * * *', () => {
         Worktime();/* 30で割れる分数の0秒になったとき */
         editEmbed();
-        embed.setDescription(`作業中です ${nowTime.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })}まで`)
+        embed.setDescription(`作業中です `)
         embed.setImage('https://2023040321066857f3c8.conohawing.com/image/bot/worktime.png')
         sentMessage.edit({ embeds: [embed] });
     });
@@ -89,7 +89,7 @@ client.once("ready", async () => {
 
     const task2 = cron.job('0 25,55 * * * *', () => {
         Breaktime();/* 25分0秒と55分0秒になったとき */
-        embed.setDescription('休憩中です')
+        embed.setDescription(`休憩中です ${nowTime.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })}まで`)
         embed.setImage('https://2023040321066857f3c8.conohawing.com/image/bot/breaktime.png')
         sentMessage.edit({ embeds: [embed] });
     });
