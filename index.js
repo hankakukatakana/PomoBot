@@ -90,11 +90,13 @@ client.once("ready", async () => {
         sentMessage.edit({ embeds: [embed] });
     });
     task2.start();
-
+    
     const task3 = cron.job('55-59 24,54,29,59 * * * *', () => {
         Countdown();/* 25分30分55分00分の5秒前になったとき */
     });
+    /* 
     task3.start();
+    */
 });
 
 client.on('interactionCreate', async interaction => {
