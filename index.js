@@ -2,7 +2,7 @@ const { Client, Intents, MessageEmbed } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, StreamType } = require('@discordjs/voice');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 const fs = require('fs');
-const config = JSON.parse(fs.readFileSync('./config/test_config.json', 'utf-8'));
+const config = JSON.parse(fs.readFileSync('./config/config.json', 'utf-8'));
 const commands = JSON.parse(fs.readFileSync('./config/commands.json', 'utf-8'));
 const cron = require('cron');
 
