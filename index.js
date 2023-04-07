@@ -1,8 +1,8 @@
 const { Client, Intents, MessageEmbed } = require('discord.js');
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, StreamType } = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 const fs = require('fs');
-const config = JSON.parse(fs.readFileSync('./config/config.json', 'utf-8'));
+const config = JSON.parse(fs.readFileSync('./config/test_config.json', 'utf-8'));
 const commands = JSON.parse(fs.readFileSync('./config/commands.json', 'utf-8'));
 const cron = require('cron');
 
@@ -29,28 +29,30 @@ client.once("ready", async () => {
         const JST = new Date().toLocaleString({ timeZone: 'Asia/Tokyo' });
         const realClock = new Date(JST);
         const thirtyMinutes = 30 * 60 * 1000;
+        const worktime = 25 * 60 * 1000
         const quotient = Math.floor(realClock.getTime() / thirtyMinutes) + 1;
 
         const nextTime1 = new Date(quotient * thirtyMinutes);
         
         const nowTime = new Date(nextTime1.getTime() - thirtyMinutes);
 
-        const endTime1 = new Date(nextTime1.getTime() + 25 * 60 * 1000);
+        const endTime1 = new Date(nextTime1.getTime() + worktime);
         const nextTime2 = new Date(nextTime1.getTime() + thirtyMinutes);
-        const endTime2 = new Date(nextTime2.getTime() + 25 * 60 * 1000);
+        const endTime2 = new Date(nextTime2.getTime() + worktime);
         const nextTime3 = new Date(nextTime1.getTime() + thirtyMinutes * 2);
-        const endTime3 = new Date(nextTime3.getTime() + 25 * 60 * 1000);
+        const endTime3 = new Date(nextTime3.getTime() + worktime);
         return [nextTime1, nextTime2, nextTime3, endTime1, endTime2, endTime3, nowTime ];
     };
 
-    const worktime = 25 * 60 * 1000
-    const [nextTime1, nextTime2, nextTime3, endTime1, endTime2, endTime3, nowTime ] = Gettime();
+    
+    const [nextTime1, nextTime2, nextTime3, endTime1, endTime2, endTime3 ] = Gettime();
     const embed = new MessageEmbed()
         .setColor(0x0099FF)
         .setTitle('Timer')
-        .setDescription(`Power ON ${nowTime.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })}まで`)
+        .setDescription(`Power ON `)
         .setImage('https://i.imgur.com/AfFp7pu.png')
         .addFields(
+            { name: '\u200B', value: '\u200B' },
             { name: '1ポモ目', value: `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false },
             { name: '2ポモ目', value: `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false },
             { name: '3ポモ目', value: `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false }
@@ -58,19 +60,17 @@ client.once("ready", async () => {
     sentMessage = await txChannel.send({ embeds: [embed] });
     const editEmbed = () => {
         const [nextTime1, nextTime2, nextTime3, endTime1, endTime2, endTime3 ] = Gettime();
-        embed.fields[0].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
-        embed.fields[1].value = `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
-        embed.fields[2].value = `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
+        embed.fields[1].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
+        embed.fields[2].value = `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
+        embed.fields[3].value = `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
         sentMessage.edit({ embeds: [embed] });
     };
 
     function Worktime() {
-        console.log(' Worktime', new Date().toLocaleTimeString());
         const resource = createAudioResource('./voice/worktime.mp3')
         player.play(resource);
     }
     const Breaktime = () => {
-        console.log(' Breaktime', new Date().toLocaleTimeString());
         const resource = createAudioResource('./voice/breaktime.mp3')
         player.play(resource);
     };
@@ -81,7 +81,8 @@ client.once("ready", async () => {
     const task1 = cron.job('0 */30 * * * *', () => {
         Worktime();/* 30で割れる分数の0秒になったとき */
         editEmbed();
-        embed.setDescription(`作業中です `)
+        const [ nowTime ] = Gettime();
+        embed.setDescription(`作業中です ${nowTime.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} まで`)
         embed.setImage('https://2023040321066857f3c8.conohawing.com/image/bot/worktime.png')
         sentMessage.edit({ embeds: [embed] });
     });
@@ -89,7 +90,7 @@ client.once("ready", async () => {
 
     const task2 = cron.job('0 25,55 * * * *', () => {
         Breaktime();/* 25分0秒と55分0秒になったとき */
-        embed.setDescription(`休憩中です ${nowTime.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })}まで`)
+        embed.setDescription('休憩中です')
         embed.setImage('https://2023040321066857f3c8.conohawing.com/image/bot/breaktime.png')
         sentMessage.edit({ embeds: [embed] });
     });
