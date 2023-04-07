@@ -1,10 +1,9 @@
-const { join } = require('node:path');
 const { Client, Intents, MessageEmbed } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, StreamType } = require('@discordjs/voice');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 const fs = require('fs');
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));
-const commands = JSON.parse(fs.readFileSync('./commands.json', 'utf-8'));
+const config = JSON.parse(fs.readFileSync('./config/test_config.json', 'utf-8'));
+const commands = JSON.parse(fs.readFileSync('./config/commands.json', 'utf-8'));
 const cron = require('cron');
 
 let sentMessage;
@@ -32,43 +31,43 @@ client.once("ready", async () => {
         const thirtyMinutes = 30 * 60 * 1000;
         const quotient = Math.floor(realClock.getTime() / thirtyMinutes) + 1;
         const nextTime1 = new Date(quotient * thirtyMinutes);
+        const endTime1 = new Date(nextTime1.getTime() + 25 * 60 * 1000);
         const nextTime2 = new Date(nextTime1.getTime() + thirtyMinutes);
+        const endTime2 = new Date(nextTime2.getTime() + 25 * 60 * 1000);
         const nextTime3 = new Date(nextTime1.getTime() + thirtyMinutes * 2);
-        return [nextTime1, nextTime2, nextTime3 ];
+        const endTime3 = new Date(nextTime3.getTime() + 25 * 60 * 1000);
+        return [nextTime1, nextTime2, nextTime3, endTime1, endTime2, endTime3 ];
     };
-    
-    const [nextTime1, nextTime2, nextTime3 ] = Gettime();
+
+    const worktime = 25 * 60 * 1000
+    const [nextTime1, nextTime2, nextTime3, endTime1, endTime2, endTime3 ] = Gettime();
     const embed = new MessageEmbed()
         .setColor(0x0099FF)
         .setTitle('Timer')
         .setDescription('Power ON')
         .setImage('https://i.imgur.com/AfFp7pu.png')
         .addFields(
-            { name: '1ポモ目', value: `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `, inline: false },
-            { name: '2ポモ目', value: `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `, inline: false },
-            { name: '3ポモ目', value: `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `, inline: false }
+            { name: '1ポモ目', value: `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false },
+            { name: '2ポモ目', value: `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false },
+            { name: '3ポモ目', value: `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false }
         )
     sentMessage = await txChannel.send({ embeds: [embed] });
     const editEmbed = () => {
         const [nextTime1, nextTime2, nextTime3 ] = Gettime();
-        embed.fields[0].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `;
-        embed.fields[1].value = `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `;
-        embed.fields[2].value = `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} : ${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })+25} `;
+        embed.fields[0].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
+        embed.fields[1].value = `${nextTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime2.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
+        embed.fields[2].value = `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
         sentMessage.edit({ embeds: [embed] });
     };
 
     function Worktime() {
         console.log(' Worktime', new Date().toLocaleTimeString());
-        const resource = createAudioResource(join(__dirname, './voice/worktime.mp3'), {
-            inputType: StreamType.Arbitrary,
-        });
+        const resource = createAudioResource('./voice/worktime.mp3')
         player.play(resource);
     }
     const Breaktime = () => {
         console.log(' Breaktime', new Date().toLocaleTimeString());
-        const resource = createAudioResource(join(__dirname, './voice/breaktime.mp3'), {
-            inputType: StreamType.Arbitrary,
-        });
+        const resource = createAudioResource('./voice/breaktime.mp3')
         player.play(resource);
     };
     const Countdown = () => {
