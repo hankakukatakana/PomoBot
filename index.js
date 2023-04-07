@@ -78,7 +78,7 @@ client.once("ready", async () => {
         Worktime();/* 30で割れる分数の0秒になったとき */
         editEmbed();
         embed.setDescription('作業中です')
-        embed.setImage('https://pbs.twimg.com/media/FsS-cS4akAAed1X?format=jpg&name=4096x4096')
+        embed.setImage('https://2023040321066857f3c8.conohawing.com/image/bot/worktime.png')
         sentMessage.edit({ embeds: [embed] });
     });
     task1.start();
@@ -86,7 +86,7 @@ client.once("ready", async () => {
     const task2 = cron.job('0 25,55 * * * *', () => {
         Breaktime();/* 25分0秒と55分0秒になったとき */
         embed.setDescription('休憩中です')
-        embed.setImage('https://pbs.twimg.com/media/FsS-cS9akAAf46u?format=jpg&name=4096x4096')
+        embed.setImage('https://2023040321066857f3c8.conohawing.com/image/bot/breaktime.png')
         sentMessage.edit({ embeds: [embed] });
     });
     task2.start();
