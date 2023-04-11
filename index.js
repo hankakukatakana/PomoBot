@@ -2,11 +2,13 @@ const { Client, Intents, MessageEmbed } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 const fs = require('fs');
-const config = JSON.parse(fs.readFileSync('./config/config.json', 'utf-8'));
+const config = JSON.parse(fs.readFileSync('./config/test_config.json', 'utf-8'));
 const commands = JSON.parse(fs.readFileSync('./config/commands.json', 'utf-8'));
 const cron = require('cron');
 
 let sentMessage;
+let worktimeMp3 = './voice/worktime.mp3';
+let breaktimeMp3 = './voice/breaktime.mp3';
 
 client.once("ready", async () => { 
     const txChannel = client.channels.cache.get(config.textchannelId);
@@ -67,11 +69,11 @@ client.once("ready", async () => {
     };
 
     function Worktime() {
-        const resource = createAudioResource('./voice/worktime.mp3')
+        const resource = createAudioResource(worktimeMp3)
         player.play(resource);
     }
     const Breaktime = () => {
-        const resource = createAudioResource('./voice/breaktime.mp3')
+        const resource = createAudioResource(breaktimeMp3)
         player.play(resource);
     };
     const Countdown = () => {
@@ -108,11 +110,14 @@ client.on('interactionCreate', async interaction => {
     
     switch (interaction.commandName) {
         case 'time':
-            /* sentMessage = await interaction.reply({ embeds: [createEmbed()] }); */
-            interaction.reply('Invalid command');
+            worktimeMp3 = './voice/worktime.mp3';
+            breaktimeMp3 = './voice/breaktime.mp3';
+            interaction.reply('default mode');
             break;
         case 'hiroyuki':
-            interaction.reply('Invalid command');
+            worktimeMp3 = './voice/worktime_hryk.mp3';
+            breaktimeMp3 = './voice/breaktime_hryk.mp3';
+            interaction.reply('change mode');
             break;
         default:
             interaction.reply('Invalid command');
