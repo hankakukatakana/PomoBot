@@ -111,7 +111,7 @@ client.on('interactionCreate', async interaction => {
             /* sentMessage = await interaction.reply({ embeds: [createEmbed()] }); */
             interaction.reply('Invalid command');
             break;
-        case 'reset':
+        case 'hiroyuki':
             interaction.reply('Invalid command');
             break;
         default:
