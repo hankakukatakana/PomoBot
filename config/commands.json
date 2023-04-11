@@ -1,7 +1,7 @@
 {
     "commands": [
         {
-            "name": "time",
+            "name": "reset",
             "description": "Timer Status",
             "type": 1,
             "options": []

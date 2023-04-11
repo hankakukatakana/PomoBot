@@ -109,7 +109,7 @@ client.once("ready", async () => {
 client.on('interactionCreate', async interaction => {
     
     switch (interaction.commandName) {
-        case 'time':
+        case 'reset':
             worktimeMp3 = './voice/worktime.mp3';
             breaktimeMp3 = './voice/breaktime.mp3';
             interaction.reply('default mode');
