@@ -2,13 +2,13 @@
     "commands": [
         {
             "name": "reset",
-            "description": "Timer Status",
+            "description": "voice reset",
             "type": 1,
             "options": []
         },
         {
             "name": "hiroyuki",
-            "description": "No Acction",
+            "description": "voice hiroyuki",
             "type": 1,
             "options": [],
             "ephemeral": true

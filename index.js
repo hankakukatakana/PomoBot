@@ -25,7 +25,6 @@ client.once("ready", async () => {
     
     client.application.commands.set(commands.commands);
 
-    console.log(`Logged in as ${client.user.tag}!`);
 
     const Gettime = () => {
         const JST = new Date().toLocaleString({ timeZone: 'Asia/Tokyo' });
@@ -60,6 +59,9 @@ client.once("ready", async () => {
             { name: '3ポモ目', value: `${nextTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime3.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `, inline: false }
         )
     sentMessage = await txChannel.send({ embeds: [embed] });
+
+    console.log(`Logged in as ${client.user.tag}!`);
+
     const editEmbed = () => {
         const [nextTime1, nextTime2, nextTime3, endTime1, endTime2, endTime3 ] = Gettime();
         embed.fields[1].value = `${nextTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} ~ ${endTime1.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' })} `;
